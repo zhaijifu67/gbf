@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+		<title>宅爷的GBF工具箱</title>
+		<script src="../index/js/main.js"></script>
+		<style>
+			* {
+				box-sizing: border-box;
+				font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+			}
+
+			body {
+				background: #f1f5f9;
+				margin: 0;
+				padding: 24px 20px 24px 20px;
+				color: #0f172a;
+				padding-right: 420px;
+				transition: padding-right 0.2s;
+			}
+
+			body.hide-fixed-preview {
+				padding-right: 20px;
+			}
+
+			hr {
+				border: none;
+				border-top: 1px solid #e2e8f0;
+			}
+
+			.app-container {
+				max-width: 1400px;
+				margin: 0 auto;
+				background: white;
+				border-radius: 32px;
+				box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+				overflow: visible;
+			}
+
+			.tabs {
+				display: flex;
+				border-bottom: 1px solid #e2e8f0;
+				background: #fefefe;
+				padding: 0 28px;
+				gap: 12px;
+			}
+
+			.tab-btn {
+				background: none;
+				border: none;
+				padding: 16px 24px;
+				font-size: 1rem;
+				font-weight: 600;
+				cursor: pointer;
+				color: #475569;
+				transition: all 0.2s;
+				position: relative;
+			}
+
+			.tab-btn.active {
+				color: #3b82f6;
+			}
+
+			.tab-btn.active::after {
+				content: '';
+				position: absolute;
+				bottom: -1px;
+				left: 0;
+				width: 100%;
+				height: 3px;
+				background: #3b82f6;
+				border-radius: 3px 3px 0 0;
+			}
+
+			.tab-content {
+				display: none;
+				padding: 28px 32px;
+				animation: fade 0.2s ease;
+			}
+
+			.tab-content.active {
+				display: block;
+			}
+
+			@keyframes fade {
+				from {
+					opacity: 0;
+					transform: translateY(6px);
+				}
+
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			.edit-right {
+				position: fixed;
+				right: 20px;
+				top: 20px;
+				width: 380px;
+				max-height: calc(100vh - 40px);
+				background: #f8fafc;
+				border-radius: 24px;
+				border: 1px solid #e2e8f0;
+				padding: 20px;
+				box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+				z-index: 1000;
+				overflow-y: auto;
+				transition: all 0.2s;
+			}
+
+			.edit-right.hidden {
+				display: none;
+			}
+
+			.edit-right h3 {
+				margin-top: 0;
+				margin-bottom: 16px;
+				font-size: 1.2rem;
+			}
+
+			.round-card {
+				background: white;
+				border-radius: 20px;
+				border: 1px solid #e2e8f0;
+				margin-bottom: 16px;
+				padding: 12px 16px;
+			}
+
+			.branch-selector {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin: 0 0 12px 0;
+				align-items: center;
+			}
+
+			.branch-btn {
+				background: #e2e8f0;
+				border: none;
+				padding: 4px 12px;
+				border-radius: 20px;
+				font-size: 0.75rem;
+				cursor: pointer;
+			}
+
+			.branch-btn.active {
+				background: #3b82f6;
+				color: white;
+			}
+
+			.sub-items {
+				margin-top: 12px;
+				padding-left: 12px;
+				border-left: 2px solid #cbd5e1;
+			}
+
+			.sub-item {
+				background: #f8fafc;
+				border-radius: 16px;
+				padding: 8px 12px;
+				margin-bottom: 8px;
+			}
+
+			.sub-header {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				margin-bottom: 8px;
+			}
+
+			.sub-title {
+				font-weight: 600;
+			}
+
+			.content-image {
+				display: inline-block;
+				vertical-align: middle;
+				margin: 2px 4px;
+			}
+
+			.content-image.role-icon {
+				width: 56px;
+				height: 56px;
+				object-fit: cover;
+			}
+
+			.content-image.skill-icon-small {
+				width: 44px;
+				height: 44px;
+				object-fit: cover;
+			}
+
+			.composite-icon {
+				position: relative;
+				display: inline-block;
+				margin: 2px 4px;
+			}
+
+			.composite-icon .main-icon {
+				width: 48px;
+				height: 48px;
+				object-fit: cover;
+				display: block;
+			}
+
+			.composite-icon .overlay-icon {
+				position: absolute;
+				bottom: -8px;
+				right: -8px;
+				width: 24px;
+				height: 24px;
+				object-fit: cover;
+				border: 1px solid white;
+				background: white;
+			}
+
+			.skill-group {
+				display: inline-flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 0;
+				background: rgba(0, 0, 0, 0.02);
+				padding: 4px 8px;
+				border-radius: 12px;
+				margin: 4px 0;
+				vertical-align: middle;
+			}
+
+			.fc {
+				background: url(https://prd-game-a-granbluefantasy.akamaized.net/assets/img_mid/sprite/v3/css_img/raid/parts_advanced-s2e07ccdc01.png) no-repeat 0 -608px;
+				background-size: 128px 988px;
+				width: 100px;
+				height: 32px;
+				display: inline-block;
+				vertical-align: middle;
+				margin: 2px 4px;
+			}
+
+			.awakening_on {
+				background: url(https://prd-game-a-granbluefantasy.akamaized.net/assets/img_mid/sprite/v3/raid/parts_btn-s2fa1f1509b.png) no-repeat 0 -1630px;
+				background-size: 142px 3861px;
+				width: 100px;
+				height: 40px;
+				display: inline-block;
+			}
+
+			.awakening_off {
+				background: url(https://prd-game-a-granbluefantasy.akamaized.net/assets/img_mid/sprite/v3/raid/parts_btn-s2fa1f1509b.png) no-repeat 0 -1150px;
+				background-size: 142px 3861px;
+				width: 100px;
+				height: 40px;
+				display: inline-block;
+			}
+
+			.edit-section {
+				display: flex;
+				flex-direction: column;
+				gap: 28px;
+			}
+
+			.card-panel {
+				background: #f8fafc;
+				border-radius: 24px;
+				border: 1px solid #e2e8f0;
+				padding: 20px 24px;
+			}
+
+			.flex-row {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: flex-end;
+				gap: 16px;
+				margin-bottom: 20px;
+			}
+
+			.form-group {
+				display: flex;
+				flex-direction: column;
+				gap: 6px;
+				flex: 1;
+				min-width: 160px;
+			}
+
+			.form-group label {
+				font-weight: 600;
+				font-size: 0.75rem;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+				color: #475569;
+			}
+
+			input,
+			textarea {
+				background: white;
+				border: 1px solid #cbd5e1;
+				border-radius: 16px;
+				padding: 10px 14px;
+				font-size: 0.9rem;
+				outline: none;
+			}
+
+			textarea {
+				resize: vertical;
+			}
+
+			button {
+				background: #eef2ff;
+				border: none;
+				border-radius: 40px;
+				padding: 8px 18px;
+				font-weight: 600;
+				font-size: 0.8rem;
+				cursor: pointer;
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+			}
+
+			.btn-primary {
+				background: #3b82f6;
+				color: white;
+			}
+
+			.btn-primary:hover {
+				background: #2563eb;
+			}
+
+			.btn-danger {
+				background: #fee2e2;
+				color: #b91c1c;
+			}
+
+			.btn-secondary {
+				background: #f1f5f9;
+				border: 1px solid #cbd5e1;
+			}
+
+			.row-item {
+				background: white;
+				border-radius: 20px;
+				padding: 12px 16px;
+				margin-bottom: 16px;
+				border: 1px solid #e2e8f0;
+			}
+
+			.row-header {
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				margin-bottom: 12px;
+			}
+
+			.row-actions {
+				display: flex;
+				gap: 8px;
+			}
+
+			.branch-container {
+				margin-top: 0;
+			}
+
+			.branch-tabs {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin-bottom: 12px;
+				align-items: center;
+			}
+
+			.branch-tab {
+				background: #e2e8f0;
+				border: none;
+				padding: 4px 12px;
+				border-radius: 20px;
+				font-size: 0.75rem;
+				cursor: pointer;
+			}
+
+			.branch-tab.active {
+				background: #3b82f6;
+				color: white;
+			}
+
+			.branch-actions {
+				display: flex;
+				gap: 6px;
+				margin-left: auto;
+			}
+
+			.sub-rows-list {
+				margin-left: 20px;
+				padding-left: 12px;
+				border-left: 2px solid #cbd5e1;
+			}
+
+			.sub-row-item {
+				background: #ffffffdd;
+				border-radius: 16px;
+				padding: 8px 12px;
+				margin-bottom: 8px;
+				border: 1px solid #e2e8f0;
+			}
+
+			.sub-row-item .flex-row {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 12px;
+				margin-bottom: 8px;
+			}
+
+			.sub-row-item .flex-row input {
+				flex: 2;
+			}
+
+			.sub-row-item .flex-row .toggle-switch {
+				flex: 0;
+			}
+
+			.status-bar {
+				margin-top: 20px;
+				background: #f1f5f9;
+				border-radius: 20px;
+				padding: 12px 18px;
+				font-size: 0.85rem;
+				border-left: 5px solid #3b82f6;
+			}
+
+			.save-bar {
+				display: flex;
+				justify-content: flex-end;
+				gap: 12px;
+				margin-top: 20px;
+				padding-top: 12px;
+				border-top: 1px solid #e2e8f0;
+			}
+
+			.img-preview {
+				width: 32px;
+				height: 32px;
+				object-fit: cover;
+				margin-left: 8px;
+				border: 1px solid #cbd5e1;
+				border-radius: 6px;
+			}
+
+			.input-with-preview {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				flex-wrap: wrap;
+			}
+
+			.input-with-preview input {
+				flex: 1;
+			}
+
+			.small-text {
+				font-size: 0.7rem;
+				color: #475569;
+			}
+
+			.toggle-switch {
+				display: inline-flex;
+				align-items: center;
+				gap: 10px;
+				background: white;
+				border: 1px solid #cbd5e1;
+				border-radius: 40px;
+				padding: 4px 12px;
+				cursor: pointer;
+			}
+
+			.toggle-switch input {
+				width: 36px;
+				height: 20px;
+				appearance: none;
+				background: #cbd5e1;
+				border-radius: 20px;
+				position: relative;
+				cursor: pointer;
+				transition: 0.2s;
+				margin: 0;
+			}
+
+			.toggle-switch input:checked {
+				background: #3b82f6;
+			}
+
+			.toggle-switch input::before {
+				content: '';
+				width: 16px;
+				height: 16px;
+				background: white;
+				border-radius: 50%;
+				position: absolute;
+				top: 2px;
+				left: 2px;
+				transition: 0.2s;
+			}
+
+			.toggle-switch input:checked::before {
+				left: calc(100% - 18px);
+			}
+
+			.add-round-bar {
+				margin-top: 20px;
+				text-align: center;
+			}
+
+			.collapsible-header {
+				cursor: pointer;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 8px 0;
+			}
+
+			.collapsible-icon {
+				transition: transform 0.2s;
+			}
+
+			.collapsible-content {
+				overflow: auto;
+				transition: max-height 0.3s ease-out;
+				max-height: 400px;
+			}
+
+			.collapsible-content.collapsed {
+				max-height: 0 !important;
+			}
+
+			.role-avatar {
+				width: 80px;
+				height: 80px;
+				object-fit: cover;
+			}
+
+			.skill-icon {
+				width: 48px;
+				height: 48px;
+				object-fit: cover;
+				background: #eef2ff;
+				padding: 4px;
+			}
+
+			.stone-img {
+				height: 80px;
+				width: auto;
+				object-fit: contain;
+				border: 1px solid #cbd5e1;
+			}
+
+			.roles-gallery,
+			.stones-gallery {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 24px;
+				justify-content: flex-start;
+				margin-bottom: 20px;
+			}
+
+			.role-card,
+			.stone-card {
+				background: #f8fafc;
+				padding: 16px;
+				min-width: 180px;
+				border: 1px solid #e2e8f0;
+				text-align: center;
+				border-radius: 16px;
+			}
+
+			.table-header-images {
+				background: white;
+				border-radius: 24px;
+				border: 1px solid #e2e8f0;
+				padding: 20px;
+				margin-bottom: 24px;
+			}
+
+			.tables-buttons {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 12px;
+				margin-bottom: 28px;
+				border-bottom: 1px solid #e2e8f0;
+				padding-bottom: 20px;
+			}
+
+			.table-btn {
+				background: #f1f5f9;
+				border: 1px solid #cbd5e1;
+				padding: 8px 18px;
+				border-radius: 40px;
+				font-weight: 500;
+				cursor: pointer;
+				font-size: 0.85rem;
+			}
+
+			.table-btn.active-table {
+				background: #3b82f6;
+				border-color: #3b82f6;
+				color: white;
+			}
+
+			.empty-placeholder {
+				text-align: center;
+				padding: 48px 20px;
+				color: #64748b;
+				font-style: italic;
+			}
+
+			.skills-row {
+				display: flex;
+				gap: 12px;
+				flex-wrap: wrap;
+				margin-top: 12px;
+			}
+
+			.skills-row .skill-input {
+				flex: 1;
+				/* min-width: 140px; */
+			}
+
+			.panel-header-with-buttons {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 12px;
+			}
+
+			.branch-rename-icon {
+				margin-left: 4px;
+				font-size: 0.7rem;
+				cursor: pointer;
+				opacity: 0.6;
+			}
+
+			.branch-rename-icon:hover {
+				opacity: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="app-container">
+			<div class="tabs">
+				<button class="tab-btn active" data-tab="preview">👁️ 预览表格</button>
+				<button class="tab-btn" data-tab="edit">✏️ 编辑表格</button>
+			</div>
+			<div id="previewTab" class="tab-content active">
+				<div style="margin-bottom: 16px;">
+					<h2 style="margin: 0 0 6px 0; font-size: 1.5rem;">📋 所有数据表格</h2>
+					<p>点击按钮切换表格，每回合包含多分支，分支内为步骤</p>
+				</div>
+				<div id="tablesButtonContainer" class="tables-buttons"></div>
+				<div id="previewHeaderImages" class="table-header-images" style="display: none;"></div>
+				<div id="previewTableContainer">
+					<div class="empty-placeholder">✨ 请从上方选择一个表格</div>
+				</div>
+			</div>
+
+			<div id="editTab" class="tab-content">
+				<div class="edit-layout">
+					<div class="edit-left">
+						<div class="edit-section">
+							<div class="card-panel">
+								<h3>📌 表格管理</h3>
+								<div class="flex-row">
+									<div class="form-group"><label>表格名称</label><input type="text" id="editTableName"
+											value="新表格"></div>
+									<button id="loadTableBtn" class="btn-secondary">加载/创建</button>
+									<button id="deleteCurrentTableBtn" class="btn-danger">删除</button>
+								</div>
+								<div class="status-bar" id="editTableStatus">未加载表格</div>
+							</div>
+							<div class="card-panel" id="tableSettingsPanel" style="display: none;">
+								<div class="panel-header-with-buttons">
+									<h3>⚙️ 角色 & 召唤石设置</h3>
+									<div>
+										<button id="addRoleBtn" class="btn-secondary" style="font-size:0.7rem;">+
+											添加角色</button>
+										<button id="addStoneBtn" class="btn-secondary" style="font-size:0.7rem;">+
+											添加召唤石</button>
+									</div>
+								</div>
+								<div>
+									<div class="panel-header-with-buttons collapsible-header"
+										data-target="rolesSettingsContainer">
+										<h4 style="margin: 0;">🎭 角色列表</h4>
+										<span class="collapsible-icon">▼</span>
+									</div>
+									<div id="rolesSettingsContainer" class="collapsible-content"></div>
+									<hr />
+									<div class="panel-header-with-buttons collapsible-header"
+										data-target="stonesSettingsContainer">
+										<h4 style="margin-bottom: 0;">⚙ 召唤石列表</h4>
+										<span class="collapsible-icon">▼</span>
+									</div>
+									<div id="stonesSettingsContainer" class="collapsible-content"></div>
+									<div class="save-bar" style="justify-content:flex-start; margin-top:16px;"><button
+											id="saveSettingsBtn" class="btn-primary">保存设置</button></div>
+									<div class="small-text">指令: A1~A4, A1>B, A, FC<br>图片输入任意网址自动提取ID并转换为标准CDN预览</div>
+								</div>
+							</div>
+
+							<div class="card-panel">
+								<h3>📝 回合列表 (每个回合可包含多个分支，分支内为具体步骤)</h3>
+								<div id="currentRowsList"></div>
+								<div class="add-round-bar">
+									<button id="addEmptyRoundBtn" class="btn-primary">➕ 添加新回合</button>
+								</div>
+							</div>
+
+							<div class="save-bar">
+								<button id="manualSaveBtn" class="btn-primary">💾 保存 data.js</button>
+								<button id="refreshDataBtn" class="btn-secondary">🔄 重新加载</button>
+							</div>
+							<div id="editStatusMsg" class="status-bar">就绪</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="edit-right" id="livePreviewPanel">
+			<h3>🔍 实时预览 (固定窗口)</h3>
+			<div class="preview-box" id="livePreviewContainer">
+				<div class="empty-placeholder">请加载表格</div>
+			</div>
+		</div>
+
+		<script>
+			// ---------- 图片ID处理与标准URL生成 ----------
+			function extractImageId(url) {
+				if (!url || typeof url !== 'string') return '';
+				let match = url.match(/\/([^\/?#]+)(?:\?|#|$)/);
+				if (!match) return '';
+				let filename = match[1];
+				let id = filename.replace(/\.(jpg|jpeg|png)$/i, '');
+				return id;
+			}
+
+			// 角色A (索引0) 使用 leader 路径，其他角色使用 npc 路径
+			function getRoleImageUrl(roleIndex, id) {
+				if (!id) return '';
+				if (roleIndex === 0) {
+					return `https://prd-game-a1-granbluefantasy.akamaized.net/assets/img/sp/assets/leader/s/${id}.jpg`;
+				} else {
+					return `https://prd-game-a1-granbluefantasy.akamaized.net/assets/img/sp/assets/npc/s/${id}.jpg`;
+				}
+			}
+
+			function getSkillImageUrl(id) {
+				if (!id) return '';
+				return `https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/ui/icon/ability/m/${id}.png`;
+			}
+
+			function getStoneImageUrl(id) {
+				if (!id) return '';
+				return `https://prd-game-a-granbluefantasy.akamaized.net/assets/img_mid/sp/assets/summon/m/${id}.jpg`;
+			}
+
+			// 从用户输入的URL中提取ID，用于存储
+			function normalizeAndStoreId(userInput, type, roleIndex) {
+				const id = extractImageId(userInput);
+				if (!id) return ''; // 无效输入则存储空字符串
+				return id;
+			}
+
+			// ---------- 数据存储 ----------
+			let dataStore = {};
+			let currentPreviewTable = null;
+			let currentEditTableName = null;
+
+			// DOM 引用
+			const previewContainer = document.getElementById('previewTableContainer');
+			const buttonsContainer = document.getElementById('tablesButtonContainer');
+			const previewHeaderDiv = document.getElementById('previewHeaderImages');
+			const editTableNameInput = document.getElementById('editTableName');
+			const loadTableBtn = document.getElementById('loadTableBtn');
+			const deleteCurrentTableBtn = document.getElementById('deleteCurrentTableBtn');
+			const addEmptyRoundBtn = document.getElementById('addEmptyRoundBtn');
+			const currentRowsListDiv = document.getElementById('currentRowsList');
+			const editTableStatus = document.getElementById('editTableStatus');
+			const editStatusMsg = document.getElementById('editStatusMsg');
+			const manualSaveBtn = document.getElementById('manualSaveBtn');
+			const refreshDataBtn = document.getElementById('refreshDataBtn');
+			const tableSettingsPanel = document.getElementById('tableSettingsPanel');
+			const rolesSettingsContainer = document.getElementById('rolesSettingsContainer');
+			const stonesSettingsContainer = document.getElementById('stonesSettingsContainer');
+			const addRoleBtn = document.getElementById('addRoleBtn');
+			const addStoneBtn = document.getElementById('addStoneBtn');
+			const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+			const livePreviewContainer = document.getElementById('livePreviewContainer');
+			const livePreviewPanel = document.getElementById('livePreviewPanel');
+
+			function toggleFixedPreview(show) {
+				if (show) {
+					livePreviewPanel.classList.remove('hidden');
+					document.body.classList.remove('hide-fixed-preview');
+				} else {
+					livePreviewPanel.classList.add('hidden');
+					document.body.classList.add('hide-fixed-preview');
+				}
+			}
+
+			function initCollapsible() {
+				document.querySelectorAll('.collapsible-header').forEach(header => {
+					if (header._collapsibleBound) return;
+					header._collapsibleBound = true;
+					header.addEventListener('click', (e) => {
+						const targetId = header.getAttribute('data-target');
+						const content = document.getElementById(targetId);
+						if (content) {
+							content.classList.toggle('collapsed');
+							const icon = header.querySelector('.collapsible-icon');
+							if (icon) icon.textContent = content.classList.contains('collapsed') ? '▶' : '▼';
+						}
+					});
+				});
+			}
+
+			function escapeHtml(str) {
+				if (!str) return '';
+				return str.replace(/[&<>]/g, m => ({
+					'&': '&amp;',
+					'<': '&lt;',
+					'>': '&gt;'
+				} [m]));
+			}
+
+			function setEditMessage(msg, isError = false) {
+				editStatusMsg.innerHTML = isError ? `⚠️ ${msg}` : `ℹ️ ${msg}`;
+				editStatusMsg.style.background = isError ? '#fee2e2' : '#eef2ff';
+				setTimeout(() => {
+					if (editStatusMsg.innerHTML === `ℹ️ ${msg}`) editStatusMsg.style.background = '#eef2ff';
+				}, 3000);
+			}
+
+			function ensureTableStruct(tableName) {
+				if (!dataStore[tableName]) dataStore[tableName] = {
+					rows: [],
+					settings: {
+						roles: [],
+						stones: []
+					}
+				};
+				if (!dataStore[tableName].settings) dataStore[tableName].settings = {
+					roles: [],
+					stones: []
+				};
+				if (!dataStore[tableName].settings.roles) dataStore[tableName].settings.roles = [];
+				if (!dataStore[tableName].settings.stones) dataStore[tableName].settings.stones = [];
+				if (!dataStore[tableName].rows) dataStore[tableName].rows = [];
+				dataStore[tableName].rows.forEach(row => {
+					if (!row.branches || row.branches.length === 0) row.branches = [{
+						name: "默认",
+						items: []
+					}];
+					if (row.currentBranch === undefined) row.currentBranch = 0;
+					row.branches.forEach(branch => {
+						if (!branch.items) branch.items = [];
+						branch.items.forEach(item => {
+							if (item.awakening === undefined) item.awakening = false;
+						});
+					});
+				});
+				// 迁移旧数据：如果存储的是完整URL则转为ID
+				const settings = dataStore[tableName].settings;
+				if (settings.roles) {
+					settings.roles.forEach((role, idx) => {
+						if (role.roleImage && role.roleImage.startsWith('http')) {
+							role.roleImage = extractImageId(role.roleImage);
+						}
+						if (role.skills) {
+							role.skills = role.skills.map(skill => skill && skill.startsWith('http') ? extractImageId(
+								skill) : skill);
+						}
+					});
+				}
+				if (settings.stones) {
+					settings.stones.forEach(stone => {
+						if (stone.imageUrl && stone.imageUrl.startsWith('http')) {
+							stone.imageUrl = extractImageId(stone.imageUrl);
+						}
+					});
+				}
+				return dataStore[tableName];
+			}
+
+			// 解析指令
+			function parseDirective(line) {
+				const t = line.trim();
+				if (t === "FC") return {
+					type: 'fc'
+				};
+				if (t === "大药") return {
+					type: 'yao'
+				};
+				let m = t.match(/^([A-Z])(\d)>([A-Z])$/);
+				if (m) return {
+					roleLetter: m[1],
+					skillIndex: parseInt(m[2]),
+					overlayRole: m[3],
+					type: 'composite'
+				};
+				m = t.match(/^([A-Z])(\d)$/);
+				if (m) return {
+					roleLetter: m[1],
+					skillIndex: parseInt(m[2]),
+					type: 'skill'
+				};
+				m = t.match(/^([A-Z])$/);
+				if (m) return {
+					roleLetter: m[1],
+					type: 'stone'
+				};
+				return null;
+			}
+
+			// 获取图片标准URL（使用存储的ID）
+			function getRoleImage(table, roleLetter) {
+				const idx = roleLetter.charCodeAt(0) - 65;
+				const role = dataStore[table]?.settings?.roles[idx];
+				if (!role || !role.roleImage) return null;
+				return getRoleImageUrl(idx, role.roleImage);
+			}
+
+			function getSkillImage(table, roleLetter, skillIndex) {
+				const idx = roleLetter.charCodeAt(0) - 65;
+				const role = dataStore[table]?.settings?.roles[idx];
+				if (!role || !role.skills || !role.skills[skillIndex - 1]) return null;
+				return getSkillImageUrl(role.skills[skillIndex - 1]);
+			}
+
+			function getStoneImage(table, stoneLetter) {
+				const idx = stoneLetter.charCodeAt(0) - 65;
+				const stone = dataStore[table]?.settings?.stones[idx];
+				if (!stone || !stone.imageUrl) return null;
+				return getStoneImageUrl(stone.imageUrl);
+			}
+
+			function renderDirective(table, dir) {
+				if (!dir) return `<span>?</span>`;
+				if (dir.type === 'fc') return `<div class="fc"></div>`;
+				if (dir.type === 'yao')
+				return `<img src="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/item/temporary/m/2.jpg" class="content-image skill-icon-small">`
+				if (dir.type === 'stone') {
+					let url = getStoneImage(table, dir.roleLetter);
+					return url ? `<img src="${escapeHtml(url)}" style="height:56px;width:auto;object-fit:contain;vertical-align:middle;">` :
+						`<span>[${dir.roleLetter}]无石</span>`;
+				}
+				if (dir.type === 'skill') {
+					let url = getSkillImage(table, dir.roleLetter, dir.skillIndex);
+					return url ? `<img src="${escapeHtml(url)}" class="content-image skill-icon-small">` :
+						`<span>[${dir.roleLetter}${dir.skillIndex}]缺图</span>`;
+				}
+				if (dir.type === 'composite') {
+					let mainUrl = getSkillImage(table, dir.roleLetter, dir.skillIndex);
+					let overlayUrl = getRoleImage(table, dir.overlayRole);
+					if (!mainUrl) return `<span>[${dir.roleLetter}${dir.skillIndex}]缺图</span>`;
+					if (overlayUrl)
+						return `<div class="composite-icon"><img src="${escapeHtml(mainUrl)}" class="main-icon"><img src="${escapeHtml(overlayUrl)}" class="overlay-icon"></div>`;
+					return `<img src="${escapeHtml(mainUrl)}" class="content-image skill-icon-small">`;
+				}
+				return `<span>?</span>`;
+			}
+
+			function isSkillDirective(dir) {
+				return dir && (dir.type === 'skill' || dir.type === 'composite');
+			}
+
+			function renderItemsToHtml(items, tableName) {
+				if (!items.length) return '';
+				let result = [];
+				for (let i = 0; i < items.length; i++) {
+					const item = items[i];
+					const lines = (item.content || '').split(/\r?\n/).filter(l => l.trim());
+					let lineHtml = '';
+					let j = 0;
+					while (j < lines.length) {
+						const line = lines[j];
+						const dir = parseDirective(line);
+						if (!dir || !isSkillDirective(dir)) {
+							if (dir) lineHtml += renderDirective(tableName, dir);
+							else lineHtml += `<span class="content-text">${escapeHtml(line)}</span>`;
+							j++;
+							continue;
+						}
+						const currentRole = dir.roleLetter;
+						let skillGroup = [renderDirective(tableName, dir)];
+						let k = j + 1;
+						while (k < lines.length) {
+							const nextDir = parseDirective(lines[k]);
+							if (nextDir && isSkillDirective(nextDir) && nextDir.roleLetter === currentRole) {
+								skillGroup.push(renderDirective(tableName, nextDir));
+								k++;
+							} else break;
+						}
+						const roleImgUrl = getRoleImage(tableName, currentRole);
+						let groupHtml = `<div class="skill-group">`;
+						if (roleImgUrl) {
+							groupHtml +=
+								`<img src="${escapeHtml(roleImgUrl)}" class="content-image role-icon" style="width:56px;height:56px; margin-right:6px;">`;
+						} else {
+							groupHtml += `<span class="content-text">${currentRole}</span>`;
+						}
+						groupHtml += skillGroup.join('') + `</div>`;
+						lineHtml += groupHtml;
+						j = k;
+					}
+					const awakeningDiv = item.awakening ? `<div class="awakening_on"></div>` :
+						`<div class="awakening_off"></div>`;
+					result.push(`<div class="sub-item">
+                            <div class="sub-header">
+                                <span class="sub-title">${escapeHtml(item.title || '无标题')}</span>
+                                ${awakeningDiv}
+                            </div>
+                            <div>${lineHtml}</div>
+                          </div>`);
+				}
+				return result.join('');
+			}
+
+			// 实时预览
+			function updateLivePreview() {
+				if (!currentEditTableName || !dataStore[currentEditTableName]) {
+					livePreviewContainer.innerHTML = '<div class="empty-placeholder">请加载表格</div>';
+					return;
+				}
+				const rows = dataStore[currentEditTableName].rows;
+				if (rows.length === 0) {
+					livePreviewContainer.innerHTML = '<div class="empty-placeholder">暂无回合，点击"添加新回合"</div>';
+					return;
+				}
+				let html = '';
+				rows.forEach((row, ridx) => {
+					const curIdx = row.currentBranch !== undefined ? row.currentBranch : 0;
+					const branch = row.branches[curIdx];
+					html += `<div class="round-card">
+                        <div class="branch-selector">
+                            ${row.branches.map((b, idx) => `<button class="branch-btn branch-switch ${idx===curIdx?'active':''}" data-row="${ridx}" data-branch="${idx}">${escapeHtml(b.name)}</button>`).join('')}
+                        </div>
+                        <div class="sub-items">
+                            ${branch ? renderItemsToHtml(branch.items, currentEditTableName) : '<div class="empty-placeholder">此分支无内容</div>'}
+                        </div>
+                    </div>`;
+				});
+				livePreviewContainer.innerHTML = html;
+				document.querySelectorAll('#livePreviewContainer .branch-switch').forEach(btn => {
+					btn.addEventListener('click', (e) => {
+						const rowIdx = parseInt(btn.dataset.row);
+						const branchIdx = parseInt(btn.dataset.branch);
+						if (dataStore[currentEditTableName]?.rows[rowIdx]) {
+							dataStore[currentEditTableName].rows[rowIdx].currentBranch = branchIdx;
+							updateLivePreview();
+							renderEditRowsList();
+							if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(
+								currentPreviewTable);
+						}
+					});
+				});
+			}
+
+			// 编辑区行列表渲染
+			function renderEditRowsList() {
+				if (!currentEditTableName || !dataStore[currentEditTableName]) {
+					currentRowsListDiv.innerHTML = '<div class="empty-placeholder">未加载表格</div>';
+					return;
+				}
+				const rows = dataStore[currentEditTableName].rows;
+				if (rows.length === 0) {
+					currentRowsListDiv.innerHTML = '<div class="empty-placeholder">暂无回合，点击下方按钮添加</div>';
+					return;
+				}
+				let html = '';
+				rows.forEach((row, ridx) => {
+					const currentBranch = row.currentBranch !== undefined ? row.currentBranch : 0;
+					html += `<div class="row-item" data-row="${ridx}">
+                        <div class="row-header">
+                            <span style="font-weight:500; margin-right:auto;">回合</span>
+                            <div class="row-actions">
+                                <button class="move-row-up" data-row="${ridx}" ${ridx===0?'disabled':''}>⬆️上移</button>
+                                <button class="move-row-down" data-row="${ridx}" ${ridx===rows.length-1?'disabled':''}>⬇️下移</button>
+                                <button class="delete-row-btn" data-row="${ridx}">🗑️删除</button>
+                            </div>
+                        </div>
+                        <div class="branch-container">
+                            <div class="branch-tabs">
+                                ${row.branches.map((b, bidx) => `
+                                    <span style="display:inline-flex; align-items:center;">
+                                        <button class="branch-tab-edit ${bidx===currentBranch?'active':''}" data-row="${ridx}" data-branch="${bidx}">${escapeHtml(b.name)}</button>
+                                        <span class="branch-rename-icon" data-row="${ridx}" data-branch="${bidx}" title="重命名分支">✏️</span>
+                                    </span>
+                                `).join('')}
+                                <div class="branch-actions">
+                                    <button class="add-branch-btn" data-row="${ridx}">+分支</button>
+                                    <button class="merge-branch-btn" data-row="${ridx}" title="合并当前分支到上一个">合并↑</button>
+                                </div>
+                            </div>
+                            <div class="sub-rows-list" id="branchItems_${ridx}_${currentBranch}">
+                                ${renderBranchItemsHtml(ridx, currentBranch)}
+                            </div>
+                        </div>
+                    </div>`;
+				});
+				currentRowsListDiv.innerHTML = html;
+				attachRowEvents();
+				document.querySelectorAll('.branch-rename-icon').forEach(icon => {
+					icon.addEventListener('click', (e) => {
+						e.stopPropagation();
+						const rowIdx = parseInt(icon.dataset.row);
+						const branchIdx = parseInt(icon.dataset.branch);
+						const row = dataStore[currentEditTableName].rows[rowIdx];
+						const branch = row.branches[branchIdx];
+						const newName = prompt("请输入新的分支名称:", branch.name);
+						if (newName && newName.trim()) {
+							branch.name = newName.trim();
+							renderEditRowsList();
+							updateLivePreview();
+							if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(
+								currentPreviewTable);
+						}
+					});
+				});
+			}
+
+			function renderBranchItemsHtml(rowIdx, branchIdx) {
+				const row = dataStore[currentEditTableName].rows[rowIdx];
+				const branch = row.branches[branchIdx];
+				if (!branch) return '<div>分支无效</div>';
+				let html =
+					`<div style="margin-bottom:8px;"><button class="add-subrow-btn" data-row="${rowIdx}" data-branch="${branchIdx}">+ 添加步骤</button></div>`;
+				branch.items.forEach((item, idx) => {
+					html += `<div class="sub-row-item" data-subidx="${idx}">
+                        <div class="flex-row" style="margin-bottom:4px;">
+                            <input type="text" class="sub-title" data-row="${rowIdx}" data-branch="${branchIdx}" data-sub="${idx}" value="${escapeHtml(item.title||'')}" placeholder="步骤标题" style="flex:2;">
+                            <label class="toggle-switch"><input type="checkbox" class="sub-awakening" data-row="${rowIdx}" data-branch="${branchIdx}" data-sub="${idx}" ${item.awakening?'checked':''}> <span>奥义</span></label>
+                            <button class="delete-subrow" data-row="${rowIdx}" data-branch="${branchIdx}" data-sub="${idx}">🗑️</button>
+                        </div>
+                        <textarea rows="2" class="sub-content" data-row="${rowIdx}" data-branch="${branchIdx}" data-sub="${idx}" placeholder="每行指令 (A1, A2, FC等)">${escapeHtml(item.content||'')}</textarea>
+                    </div>`;
+				});
+				return html;
+			}
+
+			function attachRowEvents() {
+				document.querySelectorAll('.move-row-up').forEach(btn => btn.addEventListener('click', () => {
+					const r = parseInt(btn.dataset.row);
+					if (r > 0) {
+						const arr = dataStore[currentEditTableName].rows;
+						[arr[r - 1], arr[r]] = [arr[r], arr[r - 1]];
+						renderEditRowsList();
+						updateLivePreview();
+						if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(
+							currentPreviewTable);
+					}
+				}));
+				document.querySelectorAll('.move-row-down').forEach(btn => btn.addEventListener('click', () => {
+					const r = parseInt(btn.dataset.row);
+					const arr = dataStore[currentEditTableName].rows;
+					if (r < arr.length - 1) {
+						[arr[r + 1], arr[r]] = [arr[r], arr[r + 1]];
+						renderEditRowsList();
+						updateLivePreview();
+						if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(
+							currentPreviewTable);
+					}
+				}));
+				document.querySelectorAll('.delete-row-btn').forEach(btn => btn.addEventListener('click', () => {
+					const r = parseInt(btn.dataset.row);
+					dataStore[currentEditTableName].rows.splice(r, 1);
+					renderEditRowsList();
+					updateLivePreview();
+					if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(currentPreviewTable);
+				}));
+				document.querySelectorAll('.branch-tab-edit').forEach(btn => btn.addEventListener('click', function() {
+					const r = parseInt(this.dataset.row);
+					const b = parseInt(this.dataset.branch);
+					dataStore[currentEditTableName].rows[r].currentBranch = b;
+					renderEditRowsList();
+					updateLivePreview();
+					if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(currentPreviewTable);
+				}));
+				document.querySelectorAll('.add-branch-btn').forEach(btn => btn.addEventListener('click', function() {
+					const r = parseInt(this.dataset.row);
+					const newIdx = dataStore[currentEditTableName].rows[r].branches.length;
+					dataStore[currentEditTableName].rows[r].branches.push({
+						name: `分支${String.fromCharCode(97+newIdx)}`,
+						items: []
+					});
+					renderEditRowsList();
+					updateLivePreview();
+				}));
+				document.querySelectorAll('.merge-branch-btn').forEach(btn => btn.addEventListener('click', function() {
+					const r = parseInt(this.dataset.row);
+					const row = dataStore[currentEditTableName].rows[r];
+					const cur = row.currentBranch;
+					if (cur > 0) {
+						const prev = cur - 1;
+						row.branches[prev].items.push(...row.branches[cur].items);
+						row.branches.splice(cur, 1);
+						if (row.currentBranch >= cur) row.currentBranch = Math.max(0, row.currentBranch - 1);
+						renderEditRowsList();
+						updateLivePreview();
+						setEditMessage(`已将分支合并到上一个`, false);
+					} else setEditMessage("无法合并第一个分支", true);
+				}));
+			}
+
+			// 子项事件代理
+			document.addEventListener('change', (e) => {
+				if (e.target.classList.contains('sub-title')) {
+					const r = parseInt(e.target.dataset.row),
+						b = parseInt(e.target.dataset.branch),
+						s = parseInt(e.target.dataset.sub);
+					if (dataStore[currentEditTableName]?.rows[r]?.branches[b]?.items[s]) {
+						dataStore[currentEditTableName].rows[r].branches[b].items[s].title = e.target.value;
+						updateLivePreview();
+						if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(currentPreviewTable);
+					}
+				}
+				if (e.target.classList.contains('sub-awakening')) {
+					const r = parseInt(e.target.dataset.row),
+						b = parseInt(e.target.dataset.branch),
+						s = parseInt(e.target.dataset.sub);
+					if (dataStore[currentEditTableName]?.rows[r]?.branches[b]?.items[s]) {
+						dataStore[currentEditTableName].rows[r].branches[b].items[s].awakening = e.target.checked;
+						updateLivePreview();
+						if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(currentPreviewTable);
+					}
+				}
+			});
+			document.addEventListener('input', (e) => {
+				if (e.target.classList.contains('sub-content')) {
+					const r = parseInt(e.target.dataset.row),
+						b = parseInt(e.target.dataset.branch),
+						s = parseInt(e.target.dataset.sub);
+					if (dataStore[currentEditTableName]?.rows[r]?.branches[b]?.items[s]) {
+						dataStore[currentEditTableName].rows[r].branches[b].items[s].content = e.target.value;
+						updateLivePreview();
+						if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(currentPreviewTable);
+					}
+				}
+			});
+			document.addEventListener('click', (e) => {
+				if (e.target.classList.contains('add-subrow-btn')) {
+					const r = parseInt(e.target.dataset.row),
+						b = parseInt(e.target.dataset.branch);
+					dataStore[currentEditTableName].rows[r].branches[b].items.push({
+						title: "新步骤",
+						awakening: false,
+						content: ""
+					});
+					renderEditRowsList();
+					updateLivePreview();
+				}
+				if (e.target.classList.contains('delete-subrow')) {
+					const r = parseInt(e.target.dataset.row),
+						b = parseInt(e.target.dataset.branch),
+						s = parseInt(e.target.dataset.sub);
+					dataStore[currentEditTableName].rows[r].branches[b].items.splice(s, 1);
+					renderEditRowsList();
+					updateLivePreview();
+				}
+			});
+
+			function addEmptyRound() {
+				if (!currentEditTableName) {
+					setEditMessage("请先加载表格", true);
+					return;
+				}
+				const newRow = {
+					branches: [{
+						name: "默认",
+						items: [{
+							title: "新步骤",
+							awakening: false,
+							content: ""
+						}]
+					}],
+					currentBranch: 0
+				};
+				dataStore[currentEditTableName].rows.push(newRow);
+				renderEditRowsList();
+				updateLivePreview();
+				if (currentPreviewTable === currentEditTableName) renderCurrentTablePreview(currentPreviewTable);
+				setEditMessage("已添加新回合", false);
+			}
+
+			// 主预览区
+			function renderCurrentTablePreview(tableName) {
+				if (!tableName || !dataStore[tableName]) {
+					previewContainer.innerHTML = '<div class="empty-placeholder">表格不存在</div>';
+					return;
+				}
+				const rows = dataStore[tableName].rows;
+				if (rows.length === 0) {
+					previewContainer.innerHTML = `<div class="empty-placeholder">表格「${escapeHtml(tableName)}」无数据</div>`;
+				} else {
+					let html = '';
+					rows.forEach((row, ridx) => {
+						const curIdx = row.currentBranch !== undefined ? row.currentBranch : 0;
+						const branch = row.branches[curIdx];
+						html += `<div class="round-card" style="margin-bottom:16px;">
+                            <div class="branch-selector">
+                                ${row.branches.map((b, idx) => `<button class="branch-btn preview-branch-switch ${idx===curIdx?'active':''}" data-row="${ridx}" data-branch="${idx}">${escapeHtml(b.name)}</button>`).join('')}
+                            </div>
+                            <div class="sub-items">
+                                ${branch ? renderItemsToHtml(branch.items, tableName) : '<div class="empty-placeholder">此分支无内容</div>'}
+                            </div>
+                        </div>`;
+					});
+					previewContainer.innerHTML = html;
+					document.querySelectorAll('#previewTableContainer .preview-branch-switch').forEach(btn => {
+						btn.addEventListener('click', (e) => {
+							const rowIdx = parseInt(btn.dataset.row);
+							const branchIdx = parseInt(btn.dataset.branch);
+							if (dataStore[tableName]?.rows[rowIdx]) {
+								dataStore[tableName].rows[rowIdx].currentBranch = branchIdx;
+								renderCurrentTablePreview(tableName);
+								if (tableName === currentEditTableName) {
+									renderEditRowsList();
+									updateLivePreview();
+								}
+							}
+						});
+					});
+				}
+				renderPreviewHeaderImages(tableName);
+			}
+
+			function renderPreviewHeaderImages(tableName) {
+				const s = dataStore[tableName]?.settings;
+				if (!s) {
+					previewHeaderDiv.style.display = 'none';
+					return;
+				}
+				let html = '';
+				if (s.roles?.length) {
+					html += `<h4>🎭 角色</h4><div class="roles-gallery">`;
+					s.roles.forEach((role, idx) => {
+						const letter = String.fromCharCode(65 + idx);
+						const imgUrl = role.roleImage ? getRoleImageUrl(idx, role.roleImage) : '';
+						html += `<div class="role-card">
+                            <img src="${escapeHtml(imgUrl)}" class="role-avatar" onerror="this.style.display='none'">
+                            <div>${letter}</div>
+                            <div class="skills-icons">
+                                ${role.skills?.map(skillId => `<img src="${escapeHtml(getSkillImageUrl(skillId))}" class="skill-icon" onerror="this.style.display='none'">`).join('')}
+                            </div>
+                        </div>`;
+					});
+					html += `</div>`;
+				}
+				if (s.stones?.length) {
+					html += `<h4>🪨 召唤石</h4><div class="stones-gallery">`;
+					s.stones.forEach((stone, idx) => {
+						const letter = String.fromCharCode(97 + idx);
+						const imgUrl = stone.imageUrl ? getStoneImageUrl(stone.imageUrl) : '';
+						html += `<div class="stone-card">
+                            <img src="${escapeHtml(imgUrl)}" class="stone-img" onerror="this.style.display='none'">
+                            <div>${letter}</div>
+                        </div>`;
+					});
+					html += `</div>`;
+				}
+				previewHeaderDiv.innerHTML = html || '<div>无配置</div>';
+				previewHeaderDiv.style.display = 'block';
+			}
+
+			function renderPreviewArea() {
+				const names = Object.keys(dataStore);
+				if (names.length === 0) {
+					buttonsContainer.innerHTML = '<div>无表格</div>';
+					previewContainer.innerHTML = '<div class="empty-placeholder">无数据</div>';
+					previewHeaderDiv.style.display = 'none';
+					currentPreviewTable = null;
+					return;
+				}
+				let btns = '';
+				names.forEach(n => {
+					btns +=
+						`<button class="table-btn ${currentPreviewTable===n?'active-table':''}" data-name="${escapeHtml(n)}">${escapeHtml(n)}</button>`;
+				});
+				buttonsContainer.innerHTML = btns;
+				document.querySelectorAll('.table-btn').forEach(btn => btn.addEventListener('click', () => {
+					currentPreviewTable = btn.dataset.name;
+					renderPreviewArea();
+					renderCurrentTablePreview(currentPreviewTable);
+				}));
+				if (!currentPreviewTable || !dataStore[currentPreviewTable]) currentPreviewTable = names[0];
+				renderCurrentTablePreview(currentPreviewTable);
+			}
+
+			function loadEditTable(name) {
+				if (!name.trim()) {
+					editTableStatus.innerHTML = '名称无效';
+					return false;
+				}
+				const trimmed = name.trim();
+				ensureTableStruct(trimmed);
+				currentEditTableName = trimmed;
+				editTableNameInput.value = trimmed;
+				editTableStatus.innerHTML = `编辑: ${trimmed}，${dataStore[trimmed].rows.length}回合`;
+				renderEditRowsList();
+				tableSettingsPanel.style.display = 'block';
+				renderRolesAndStonesSettings(trimmed);
+				updateLivePreview();
+				setEditMessage(`已加载 ${trimmed}`, false);
+				initCollapsible();
+				return true;
+			}
+
+			// 创建带实时预览的图片输入框（输入URL自动提取ID并存储，预览显示转换后的标准URL）
+			function makeImageInputWithNormalization(initialId, onStoreId, type, roleIndex = null) {
+				const container = document.createElement('div');
+				container.className = 'input-with-preview';
+				const input = document.createElement('input');
+				input.type = 'text';
+				// 输入框显示当前存储的ID（用户也可以直接编辑ID）
+				input.value = initialId || '';
+				input.placeholder = type === 'stone' ? '输入召唤石图片ID或URL' : (type === 'skill' ? '输入技能图片ID或URL' : '输入角色图片ID或URL');
+				const previewImg = document.createElement('img');
+				previewImg.className = 'img-preview';
+				if (type === 'stone') previewImg.classList.add('stone-preview');
+
+				// 更新预览图函数
+				function updatePreviewFromId(id) {
+					if (id) {
+						let url = '';
+						if (type === 'role') url = getRoleImageUrl(roleIndex, id);
+						else if (type === 'skill') url = getSkillImageUrl(id);
+						else url = getStoneImageUrl(id);
+						if (url) {
+							previewImg.src = url;
+							previewImg.style.display = 'inline-block';
+							return;
+						}
+					}
+					previewImg.style.display = 'none';
+				}
+
+				// 初始化预览
+				updatePreviewFromId(initialId);
+
+				input.addEventListener('input', (e) => {
+					const rawValue = e.target.value;
+					// 尝试从中提取ID（支持直接输入ID或完整URL）
+					let id = rawValue;
+					if (rawValue.includes('://')) {
+						id = extractImageId(rawValue);
+					}
+					if (id) {
+						onStoreId(id);
+						updatePreviewFromId(id);
+					} else {
+						onStoreId('');
+						previewImg.style.display = 'none';
+					}
+				});
+
+				container.appendChild(input);
+				container.appendChild(previewImg);
+				return container;
+			}
+
+			function renderRolesAndStonesSettings(tn) {
+				const sets = dataStore[tn].settings;
+				const roles = sets.roles || [],
+					stones = sets.stones || [];
+				let rh = '';
+				roles.forEach((role, idx) => {
+					const letter = String.fromCharCode(65 + idx);
+					rh += `<div class="role-config" style="margin-bottom:20px; border:1px solid #e2e8f0; border-radius:16px; padding:12px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <strong>角色 ${letter}</strong>
+                            ${idx>0 ? `<button class="del-role btn-danger" data-idx="${idx}" style="padding:2px 12px;">删除</button>` : ''}
+                        </div>
+                        <div class="form-group"><label>角色图片 (输入URL自动提取ID)</label><div id="roleImg_${idx}"></div></div>
+                        <div class="form-group"><label>技能图片 (一行四个)</label><div class="skills-row" id="skillsRow_${idx}"></div></div>
+                    </div>`;
+				});
+				rolesSettingsContainer.innerHTML = rh || '<div>无角色，点击上方按钮添加</div>';
+				let sh = '';
+				stones.forEach((stone, idx) => {
+					const letter = String.fromCharCode(97 + idx);
+					sh += `<div class="stone-config" style="margin-bottom:16px; border:1px solid #e2e8f0; border-radius:16px; padding:12px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <strong>召唤石 ${letter}</strong>
+                            <button class="del-stone btn-danger" data-idx="${idx}" style="padding:2px 12px;">删除</button>
+                        </div>
+                        <div class="form-group"><label>召唤石图片 (输入URL自动提取ID)</label><div id="stoneImg_${idx}"></div></div>
+                    </div>`;
+				});
+				stonesSettingsContainer.innerHTML = sh || '<div>无召唤石，点击上方按钮添加</div>';
+
+				roles.forEach((role, idx) => {
+					const roleWrap = document.getElementById(`roleImg_${idx}`);
+					if (roleWrap) {
+						const inputComp = makeImageInputWithNormalization(role.roleImage || '', (id) => {
+							sets.roles[idx].roleImage = id;
+							updateLivePreview();
+						}, 'role', idx);
+						roleWrap.appendChild(inputComp);
+					}
+					const skillsRow = document.getElementById(`skillsRow_${idx}`);
+					if (skillsRow) {
+						skillsRow.innerHTML = '';
+						for (let s = 0; s < 4; s++) {
+							const container = document.createElement('div');
+							container.className = 'skill-input';
+							const skillInput = makeImageInputWithNormalization(role.skills?.[s] || '', (id) => {
+								if (sets.roles[idx]) sets.roles[idx].skills[s] = id;
+								updateLivePreview();
+							}, 'skill');
+							container.appendChild(skillInput);
+							skillsRow.appendChild(container);
+						}
+					}
+				});
+				stones.forEach((stone, idx) => {
+					const wrap = document.getElementById(`stoneImg_${idx}`);
+					if (wrap) {
+						const stoneInput = makeImageInputWithNormalization(stone.imageUrl || '', (id) => {
+							sets.stones[idx].imageUrl = id;
+							updateLivePreview();
+						}, 'stone');
+						wrap.appendChild(stoneInput);
+					}
+				});
+				document.querySelectorAll('.del-role').forEach(btn => btn.addEventListener('click', () => {
+					const i = parseInt(btn.dataset.idx);
+					sets.roles.splice(i, 1);
+					renderRolesAndStonesSettings(tn);
+					updateLivePreview();
+				}));
+				document.querySelectorAll('.del-stone').forEach(btn => btn.addEventListener('click', () => {
+					const i = parseInt(btn.dataset.idx);
+					sets.stones.splice(i, 1);
+					renderRolesAndStonesSettings(tn);
+					updateLivePreview();
+				}));
+				initCollapsible();
+			}
+
+			function deleteCurrentEditTable() {
+				if (!currentEditTableName) {
+					setEditMessage("无表格", true);
+					return;
+				}
+				delete dataStore[currentEditTableName];
+				currentEditTableName = null;
+				editTableNameInput.value = "";
+				editTableStatus.innerHTML = "已删除";
+				currentRowsListDiv.innerHTML = '';
+				tableSettingsPanel.style.display = 'none';
+				livePreviewContainer.innerHTML = '<div class="empty-placeholder">请加载表格</div>';
+				renderPreviewArea();
+			}
+
+			function saveToDataJs() {
+				// 保存时dataStore中已经是ID，直接序列化
+				const blob = new Blob([`window.data = ${JSON.stringify(dataStore, null, 2)};`], {
+					type: 'application/javascript'
+				});
+				const a = document.createElement('a');
+				a.href = URL.createObjectURL(blob);
+				a.download = 'data.js';
+				a.click();
+				URL.revokeObjectURL(a.href);
+				setEditMessage("data.js已下载（存储的是图片ID）", false);
+			}
+			async function refreshFromDataJs() {
+				try {
+					const s = document.createElement('script');
+					s.src = 'data.js?t=' + Date.now();
+					const d = await new Promise((res, rej) => {
+						s.onload = () => {
+							res(window.data);
+							s.remove();
+							delete window.data;
+						};
+						s.onerror = () => rej();
+						document.head.appendChild(s);
+						setTimeout(() => rej(), 2000);
+					});
+					if (d && typeof d === 'object') {
+						dataStore = d;
+						for (let t in dataStore) {
+							ensureTableStruct(t);
+						}
+						renderPreviewArea();
+						if (currentEditTableName && dataStore[currentEditTableName]) {
+							renderEditRowsList();
+							renderRolesAndStonesSettings(currentEditTableName);
+							updateLivePreview();
+							editTableStatus.innerHTML = `已刷新: ${currentEditTableName}`;
+						} else {
+							currentEditTableName = null;
+							tableSettingsPanel.style.display = 'none';
+							livePreviewContainer.innerHTML = '<div class="empty-placeholder">请加载表格</div>';
+						}
+						setEditMessage(`加载成功，${Object.keys(dataStore).length}表格`, false);
+					} else throw new Error();
+				} catch (e) {
+					setEditMessage("未找到data.js，使用空数据", true);
+					dataStore = {};
+					renderPreviewArea();
+					if (currentEditTableName) currentEditTableName = null;
+					tableSettingsPanel.style.display = 'none';
+					livePreviewContainer.innerHTML = '<div class="empty-placeholder">无数据</div>';
+				}
+			}
+
+			function bindEvents() {
+				loadTableBtn.addEventListener('click', () => loadEditTable(editTableNameInput.value));
+				deleteCurrentTableBtn.addEventListener('click', deleteCurrentEditTable);
+				addEmptyRoundBtn.addEventListener('click', addEmptyRound);
+				manualSaveBtn.addEventListener('click', saveToDataJs);
+				refreshDataBtn.addEventListener('click', refreshFromDataJs);
+				addRoleBtn.addEventListener('click', () => {
+					if (!currentEditTableName) {
+						setEditMessage("先加载表格", true);
+						return;
+					}
+					dataStore[currentEditTableName].settings.roles.push({
+						roleImage: "",
+						skills: ["", "", "", ""]
+					});
+					renderRolesAndStonesSettings(currentEditTableName);
+					updateLivePreview();
+				});
+				addStoneBtn.addEventListener('click', () => {
+					if (!currentEditTableName) {
+						setEditMessage("先加载表格", true);
+						return;
+					}
+					dataStore[currentEditTableName].settings.stones.push({
+						imageUrl: ""
+					});
+					renderRolesAndStonesSettings(currentEditTableName);
+					updateLivePreview();
+				});
+				saveSettingsBtn.addEventListener('click', () => {
+					if (currentEditTableName) {
+						renderRolesAndStonesSettings(currentEditTableName);
+						updateLivePreview();
+						setEditMessage("设置已保存", false);
+					}
+				});
+				document.querySelectorAll('.tab-btn').forEach(btn => {
+					btn.addEventListener('click', () => {
+						const tab = btn.dataset.tab;
+						if (tab === 'preview') {
+							toggleFixedPreview(false);
+						} else {
+							toggleFixedPreview(true);
+						}
+					});
+				});
+			}
+
+			(async function() {
+				bindEvents();
+				initCollapsible();
+				toggleFixedPreview(false);
+				document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
+					const tab = btn.dataset.tab;
+					document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+					btn.classList.add('active');
+					document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+					document.getElementById(tab + 'Tab').classList.add('active');
+					if (tab === 'preview' && currentPreviewTable) renderCurrentTablePreview(
+						currentPreviewTable);
+					if (tab === 'edit') toggleFixedPreview(true);
+					else toggleFixedPreview(false);
+				}));
+				await refreshFromDataJs();
+				if (Object.keys(dataStore).length === 0) renderPreviewArea();
+				else {
+					renderPreviewArea();
+					currentPreviewTable = Object.keys(dataStore)[0];
+					renderCurrentTablePreview(currentPreviewTable);
+				}
+				if (document.querySelector('.tab-btn.active').dataset.tab === 'preview') toggleFixedPreview(false);
+				else toggleFixedPreview(true);
+			})();
+		</script>
+	</body>
+</html>
