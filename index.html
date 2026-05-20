@@ -14,10 +14,10 @@
 			body {
 				padding: 0;
 				margin: 0;
+				background: #f1f5f9;
 			}
 
 			#main {
-				background: #f1f5f9;
 				margin: 0;
 				padding: 24px 20px 24px 20px;
 				color: #0f172a;
@@ -702,7 +702,7 @@
 									<hr />
 									<div class="panel-header-with-buttons collapsible-header"
 										data-target="stonesSettingsContainer">
-										<h4 style="margin-bottom: 0;">⚙ 召唤石列表</h4>
+										<h4 style="margin-bottom: 0;">💎 召唤石列表</h4>
 										<span class="collapsible-icon">▼</span>
 									</div>
 									<div id="stonesSettingsContainer" class="collapsible-content"></div>
@@ -1362,7 +1362,7 @@
 					html += `</div>`;
 				}
 				if (s.stones?.length) {
-					html += `<h4>🪨 召唤石</h4><div class="stones-gallery">`;
+					html += `<h4>💎 召唤石</h4><div class="stones-gallery">`;
 					s.stones.forEach((stone, idx) => {
 						const letter = String.fromCharCode(97 + idx);
 						const imgUrl = stone.imageUrl ? getStoneImageUrl(stone.imageUrl) : '';
