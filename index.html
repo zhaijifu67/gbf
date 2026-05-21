@@ -1582,7 +1582,7 @@
 			async function refreshFromDataJs() {
 				try {
 					const s = document.createElement('script');
-					s.src = 'data.js?t=' + Date.now();
+					s.src = './data.js?t=' + Date.now();
 					const d = await new Promise((res, rej) => {
 						s.onload = () => {
 							res(window.data);
