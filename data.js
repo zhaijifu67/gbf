@@ -24,7 +24,7 @@ window.data = {
               {
                 "title": "t4",
                 "awakening": true,
-                "content": "C\nD2\nFC\n大药\nD2\n等待所有火消除后A"
+                "content": "C\nD2\nFC\nBP\nD2\n等待所有火消除后A"
               }
             ]
           }
@@ -124,22 +124,22 @@ window.data = {
       {
         "branches": [
           {
-            "name": "5驱散+FC",
+            "name": "第一次特动 5驱散+FC",
             "items": [
               {
                 "title": "5驱散+FC特动",
                 "awakening": false,
-                "content": "A出去解3层\nH2\nI2\nFC\n等待所有光背结束。\n后续驱散无技能时可使用\nE"
+                "content": "A出去自动会解3层，剩余部分采用以下方式\nH2\nI2\n方式2\nE\n注意使用FC\nFC\nA出去发属性表情，等待所有人光背解除"
               }
             ]
           },
           {
-            "name": "其他特动",
+            "name": "第一次特动 其他",
             "items": [
               {
                 "title": "其他特动",
                 "awakening": false,
-                "content": "C\n等待所有光背结束"
+                "content": "C\n等待所有人光背解除"
               }
             ]
           }
@@ -154,12 +154,12 @@ window.data = {
               {
                 "title": "无特动",
                 "awakening": false,
-                "content": "能蹭神盾就蹭，为了100做准备"
+                "content": "如果此时是切利天，最好提前基队友神盾，否则很容易没技能防御\n没基到神盾且自己没有神盾的话就别动了\n其他情况不开奥义可以直接解除\n注意下面两个技能好了记得放\nI3\nH1"
               },
               {
                 "title": "遇到特动",
                 "awakening": true,
-                "content": "F3\n或\nD\n或\nH3\n（主角和牛蹲）"
+                "content": "暗属性解不了除了驱散的特动，可以使用以下方式硬吃\nF3\n使用技能容易被切利天推迟\nH3\n使用牛3需要主角和牛蹲\nD"
               }
             ]
           }
@@ -173,18 +173,18 @@ window.data = {
             "items": [
               {
                 "title": "蓝条100后",
-                "awakening": false,
-                "content": "D\n或\nF3\n或 DC右技能"
+                "awakening": true,
+                "content": "D\n神盾可以提前基\nF3\n或DC右技能，本T可以考虑开奥义续咖喱"
               },
               {
                 "title": "特动120hit",
                 "awakening": false,
-                "content": "H1"
+                "content": "如果前面暖好了可以解\nH1"
               },
               {
                 "title": "600w 5次",
                 "awakening": false,
-                "content": "C\nFC"
+                "content": "解不掉，需要DC左技能\nC\nFC"
               },
               {
                 "title": "6驱散",

@@ -10,7 +10,7 @@
 				box-sizing: border-box;
 				font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
 			}
-			
+
 			body {
 				padding: 0;
 				margin: 0;
@@ -650,93 +650,94 @@
 		</style>
 	</head>
 	<body>
-	<div id="main">
-		<div class="app-container">
-			<div class="tabs">
-				<button class="tab-btn active" data-tab="preview">👁️ 预览表格</button>
-				<button class="tab-btn" data-tab="edit">✏️ 编辑表格</button>
-			</div>
-			<div id="previewTab" class="tab-content active">
-				<div style="margin-bottom: 16px;">
-					<h2 style="margin: 0 0 6px 0; font-size: 1.5rem;">📋 所有数据表格</h2>
-					<p>点击按钮切换表格，每回合包含多分支，分支内为步骤</p>
+		<div id="main">
+			<div class="app-container">
+				<div class="tabs">
+					<button class="tab-btn active" data-tab="preview">👁️ 预览表格</button>
+					<button class="tab-btn" data-tab="edit">✏️ 编辑表格</button>
 				</div>
-				<div id="tablesButtonContainer" class="tables-buttons"></div>
-				<div id="previewHeaderImages" class="table-header-images" style="display: none;"></div>
-				<div id="previewTableContainer">
-					<div class="empty-placeholder">✨ 请从上方选择一个表格</div>
+				<div id="previewTab" class="tab-content active">
+					<div style="margin-bottom: 16px;">
+						<h2 style="margin: 0 0 6px 0; font-size: 1.5rem;">📋 所有数据表格</h2>
+						<p>点击按钮切换表格，每回合包含多分支，分支内为步骤</p>
+					</div>
+					<div id="tablesButtonContainer" class="tables-buttons"></div>
+					<div id="previewHeaderImages" class="table-header-images" style="display: none;"></div>
+					<div id="previewTableContainer">
+						<div class="empty-placeholder">✨ 请从上方选择一个表格</div>
+					</div>
 				</div>
-			</div>
 
-			<div id="editTab" class="tab-content">
-				<div class="edit-layout">
-					<div class="edit-left">
-						<div class="edit-section">
-							<div class="card-panel">
-								<h3>📌 表格管理</h3>
-								<div class="flex-row">
-									<div class="form-group"><label>表格名称</label><input type="text" id="editTableName"
-											value="新表格"></div>
-									<button id="loadTableBtn" class="btn-secondary">加载/创建</button>
-									<button id="deleteCurrentTableBtn" class="btn-danger">删除</button>
+				<div id="editTab" class="tab-content">
+					<div class="edit-layout">
+						<div class="edit-left">
+							<div class="edit-section">
+								<div class="card-panel">
+									<h3>📌 表格管理</h3>
+									<div class="flex-row">
+										<div class="form-group"><label>表格名称</label><input type="text" id="editTableName"
+												value="新表格"></div>
+										<button id="loadTableBtn" class="btn-secondary">加载/创建</button>
+										<button id="deleteCurrentTableBtn" class="btn-danger">删除</button>
+									</div>
+									<div class="status-bar" id="editTableStatus">未加载表格</div>
 								</div>
-								<div class="status-bar" id="editTableStatus">未加载表格</div>
-							</div>
-							<div class="card-panel" id="tableSettingsPanel" style="display: none;">
-								<div class="panel-header-with-buttons">
-									<h3>⚙️ 角色 & 召唤石设置</h3>
+								<div class="card-panel" id="tableSettingsPanel" style="display: none;">
+									<div class="panel-header-with-buttons">
+										<h3>⚙️ 角色 & 召唤石设置</h3>
+										<div>
+											<button id="addRoleBtn" class="btn-secondary" style="font-size:0.7rem;">+
+												添加角色</button>
+											<button id="addStoneBtn" class="btn-secondary" style="font-size:0.7rem;">+
+												添加召唤石</button>
+										</div>
+									</div>
 									<div>
-										<button id="addRoleBtn" class="btn-secondary" style="font-size:0.7rem;">+
-											添加角色</button>
-										<button id="addStoneBtn" class="btn-secondary" style="font-size:0.7rem;">+
-											添加召唤石</button>
+										<div class="panel-header-with-buttons collapsible-header"
+											data-target="rolesSettingsContainer">
+											<h4 style="margin: 0;">🎭 角色列表</h4>
+											<span class="collapsible-icon">▼</span>
+										</div>
+										<div id="rolesSettingsContainer" class="collapsible-content"></div>
+										<hr />
+										<div class="panel-header-with-buttons collapsible-header"
+											data-target="stonesSettingsContainer">
+											<h4 style="margin-bottom: 0;">💎 召唤石列表</h4>
+											<span class="collapsible-icon">▼</span>
+										</div>
+										<div id="stonesSettingsContainer" class="collapsible-content"></div>
+										<div class="save-bar" style="justify-content:flex-start; margin-top:16px;">
+											<button id="saveSettingsBtn" class="btn-primary">保存设置</button></div>
+										<div class="small-text">指令: A1~A4, A1>B, A, FC<br>图片输入任意网址自动提取ID并转换为标准CDN预览
+										</div>
 									</div>
 								</div>
-								<div>
-									<div class="panel-header-with-buttons collapsible-header"
-										data-target="rolesSettingsContainer">
-										<h4 style="margin: 0;">🎭 角色列表</h4>
-										<span class="collapsible-icon">▼</span>
-									</div>
-									<div id="rolesSettingsContainer" class="collapsible-content"></div>
-									<hr />
-									<div class="panel-header-with-buttons collapsible-header"
-										data-target="stonesSettingsContainer">
-										<h4 style="margin-bottom: 0;">💎 召唤石列表</h4>
-										<span class="collapsible-icon">▼</span>
-									</div>
-									<div id="stonesSettingsContainer" class="collapsible-content"></div>
-									<div class="save-bar" style="justify-content:flex-start; margin-top:16px;"><button
-											id="saveSettingsBtn" class="btn-primary">保存设置</button></div>
-									<div class="small-text">指令: A1~A4, A1>B, A, FC<br>图片输入任意网址自动提取ID并转换为标准CDN预览</div>
-								</div>
-							</div>
 
-							<div class="card-panel">
-								<h3>📝 回合列表 (每个回合可包含多个分支，分支内为具体步骤)</h3>
-								<div id="currentRowsList"></div>
-								<div class="add-round-bar">
-									<button id="addEmptyRoundBtn" class="btn-primary">➕ 添加新回合</button>
+								<div class="card-panel">
+									<h3>📝 回合列表 (每个回合可包含多个分支，分支内为具体步骤)</h3>
+									<div id="currentRowsList"></div>
+									<div class="add-round-bar">
+										<button id="addEmptyRoundBtn" class="btn-primary">➕ 添加新回合</button>
+									</div>
 								</div>
-							</div>
 
-							<div class="save-bar">
-								<button id="manualSaveBtn" class="btn-primary">💾 保存 data.js</button>
-								<button id="refreshDataBtn" class="btn-secondary">🔄 重新加载</button>
+								<div class="save-bar">
+									<button id="manualSaveBtn" class="btn-primary">💾 保存 data.js</button>
+									<button id="refreshDataBtn" class="btn-secondary">🔄 重新加载</button>
+								</div>
+								<div id="editStatusMsg" class="status-bar">就绪</div>
 							</div>
-							<div id="editStatusMsg" class="status-bar">就绪</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="edit-right" id="livePreviewPanel">
-			<h3>🔍 实时预览 (固定窗口)</h3>
-			<div class="preview-box" id="livePreviewContainer">
-				<div class="empty-placeholder">请加载表格</div>
+			<div class="edit-right" id="livePreviewPanel">
+				<h3>🔍 实时预览 (固定窗口)</h3>
+				<div class="preview-box" id="livePreviewContainer">
+					<div class="empty-placeholder">请加载表格</div>
+				</div>
 			</div>
-		</div>
 		</div>
 		<script>
 			// ---------- 图片ID处理与标准URL生成 ----------
@@ -903,8 +904,8 @@
 				if (t === "FC") return {
 					type: 'fc'
 				};
-				if (t === "大药") return {
-					type: 'yao'
+				if (t === "BP") return {
+					type: 'potion'
 				};
 				let m = t.match(/^([A-Z])(\d)>([A-Z])$/);
 				if (m) return {
@@ -923,6 +924,11 @@
 				if (m) return {
 					roleLetter: m[1],
 					type: 'stone'
+				};
+				m = t.match(/^GP>([A-Z])$/);
+				if (m) return {
+					roleLetter: m[1],
+					type: 'potion'
 				};
 				return null;
 			}
@@ -952,11 +958,17 @@
 			function renderDirective(table, dir) {
 				if (!dir) return `<span>?</span>`;
 				if (dir.type === 'fc') return `<div class="fc"></div>`;
-				if (dir.type === 'yao')
-				return `<img src="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/item/temporary/m/2.jpg" class="content-image skill-icon-small">`
+				if (dir.type === 'potion') {
+					if (dir.roleLetter) {
+						let roleLetter = getRoleImage(table, dir.roleLetter);
+						if (roleLetter)
+							return `<div class="composite-icon"><img src="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/item/temporary/m/1.jpg" class="content-image skill-icon-small"><img src="${escapeHtml(roleLetter)}" class="overlay-icon"></div>`;
+					} else return `<img src="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/item/temporary/m/2.jpg" class="content-image skill-icon-small">`
+				}
 				if (dir.type === 'stone') {
 					let url = getStoneImage(table, dir.roleLetter);
-					return url ? `<img src="${escapeHtml(url)}" style="height:56px;width:auto;object-fit:contain;vertical-align:middle;">` :
+					return url ?
+						`<img src="${escapeHtml(url)}" style="height:56px;width:auto;object-fit:contain;vertical-align:middle;">` :
 						`<span>[${dir.roleLetter}]无石</span>`;
 				}
 				if (dir.type === 'skill') {
@@ -992,7 +1004,7 @@
 						const dir = parseDirective(line);
 						if (!dir || !isSkillDirective(dir)) {
 							if (dir) lineHtml += renderDirective(tableName, dir);
-							else lineHtml += `<span class="content-text">${escapeHtml(line)}</span>`;
+							else lineHtml += `<div class="content-text">${escapeHtml(line)}</div>`;
 							j++;
 							continue;
 						}
@@ -1012,7 +1024,7 @@
 							groupHtml +=
 								`<img src="${escapeHtml(roleImgUrl)}" class="content-image role-icon" style="width:56px;height:56px; margin-right:6px;">`;
 						} else {
-							groupHtml += `<span class="content-text">${currentRole}</span>`;
+							groupHtml += `<div class="content-text">${currentRole}</div>`;
 						}
 						groupHtml += skillGroup.join('') + `</div>`;
 						lineHtml += groupHtml;
@@ -1147,7 +1159,7 @@
                             <label class="toggle-switch"><input type="checkbox" class="sub-awakening" data-row="${rowIdx}" data-branch="${branchIdx}" data-sub="${idx}" ${item.awakening?'checked':''}> <span>奥义</span></label>
                             <button class="delete-subrow" data-row="${rowIdx}" data-branch="${branchIdx}" data-sub="${idx}">🗑️</button>
                         </div>
-                        <textarea rows="2" class="sub-content" data-row="${rowIdx}" data-branch="${branchIdx}" data-sub="${idx}" placeholder="每行指令 (A1, A2, FC等)">${escapeHtml(item.content||'')}</textarea>
+                        <textarea rows="2" class="sub-content" data-row="${rowIdx}" data-branch="${branchIdx}" data-sub="${idx}" placeholder="每行指令 (A1, A2, FC, BP, A1>B, GP>A等)">${escapeHtml(item.content||'')}</textarea>
                     </div>`;
 				});
 				return html;
