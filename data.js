@@ -345,7 +345,7 @@ window.data = {
               {
                 "title": "T5",
                 "awakening": false,
-                "content": "A2\nB1\nC1\nC2\nBP\n等所有火解掉了A"
+                "content": "A2\nB1\nC1\nC2\nBP\n等所有火解掉了A（要抢在90前打，快车注意）"
               },
               {
                 "title": "T6",
@@ -440,27 +440,27 @@ window.data = {
               {
                 "title": "+1t自由发挥",
                 "awakening": false,
-                "content": "F\nH1\nH3\nI1\nI3\nF1>H\n【根据debuff开关奥义】\n脚必须关奥义\n环必须开奥义\n眼睛/角/手随意，手注意补充血量\n【特殊情况】+1t遇到4奥义(环)如果没充能石直接摆烂\n其他t遇到4奥义(环)注意关主角和零妈开奥义打"
+                "content": "F\n最好能基充能或者下一T开一个充能（没神盾的情况下带充能召唤）\nH1\nH3\nI1\nI3\nF1>H\n【根据debuff开关奥义】\n脚必须关奥义\n环必须开奥义（也可以不解硬吃）\n手注意补充血量，眼睛/角/手随意（建议都开奥义）\n【4奥义没解掉的情况】祈祷零妈3和牛3能CD应对特动，最好提前基一个神盾"
               },
               {
                 "title": "+2t自由发挥",
-                "awakening": false,
-                "content": "可以考虑本T使用充能石充能，存奥义应对四奥义"
+                "awakening": true,
+                "content": "可以考虑本T使用充能石充能（如有）\n想要在下1T满FC需要至少3人放奥义（如零妈解除buff或主角关buff）"
               },
               {
                 "title": "满豆特动 FC+驱散",
-                "awakening": false,
-                "content": "FC\nH2\nI3\n只有此特动可以解除，如果遇到尽量解掉，解不掉有2T强压注意先回血再防打"
+                "awakening": true,
+                "content": "FC\nH2\nI2\n开关奥义均可解除，注意是否是脚\n只有此特动可以解除，如果遇到尽量解掉，解不掉有2T强压注意先回血再防打"
               },
               {
                 "title": "满豆特动 其他",
                 "awakening": false,
-                "content": "第一次满豆用000解除光背\nC\n第二次用零妈硬吃\nF3\n第三次神盾硬吃\nE\n【注意】在g100前尽量暖好零妈4，尽量，非必须\nF4"
+                "content": "第一次满豆用000解除【光背】\nC\n第二次用牛3【蹲主角】硬吃\nH3\n第三次零妈3硬吃或神盾硬吃\nF3\nE\n【注意】在g100前尽量暖好零妈4，尽量，非必须\nF4\n【注意】快车注意妈召CD，100后第1T如果是120hit可能会CD不好"
               },
               {
                 "title": "g100",
                 "awakening": false,
-                "content": "【本T岛15血量会锁血，可以关奥义存一下】\n用零妈硬吃\nF3\n或用神盾硬吃\nE\n都没有了可以用麒麟刷零妈技能（最好能基一个神盾就不用用了，零妈留给100）\nD\n或用牛技能+全蹲（能进但是100后容易死）\nH3"
+                "content": "【本T如果BOSS到15血量会锁血】\n或用神盾硬吃\nE\n或用牛技能+全蹲（未测试）\nH3\n用零妈硬吃\nF3\n都没有了可以用麒麟刷零妈技能\nD\nF3"
               }
             ]
           }
@@ -475,7 +475,7 @@ window.data = {
               {
                 "title": "【注意】",
                 "awakening": false,
-                "content": "不管什么特动尽量开一下牛，否则容易暴毙\nH3"
+                "content": "不管什么特动尽量开一下零妈3，否则容易暴毙\nF3\n尤其是120hit最容易死"
               },
               {
                 "title": "120hit",
@@ -490,17 +490,17 @@ window.data = {
               {
                 "title": "1E",
                 "awakening": false,
-                "content": "A出去直接解\n（没有妈召buff将跟世界告别）"
+                "content": "A出去直接解（注意BOSS身上有没有防御BUFF，如果前面没开零妈4有可能硬吃特动的BUFF还在，会导致解不掉）"
               },
               {
                 "title": "驱散",
                 "awakening": false,
-                "content": "D\n关奥义有4驱散"
+                "content": "D\nH2\nI1\nI2\n看剩余次数可以BB\nB"
               },
               {
                 "title": "15DB",
-                "awakening": false,
-                "content": "I3>H\nI2\nH1\nH1\nH2\nH2\n零妈满奥义可以帮忙解，注意关主角和零妈1，看剩余次数可以BB\nB"
+                "awakening": true,
+                "content": "I2\nI3>H\nH1\nH1\nH2\nH2\n零妈满奥义可以帮忙解，注意关主角和零妈1，看剩余次数可以BB\nB"
               }
             ]
           }
