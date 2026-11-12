@@ -613,5 +613,377 @@ window.data = {
         }
       ]
     }
+  },
+  "暗极法": {
+    "rows": [
+      {
+        "branches": [
+          {
+            "name": "100~80",
+            "items": [
+              {
+                "title": "T1 伤害",
+                "awakening": true,
+                "content": "B1\nB2\nA4\nA1\nA3\nC3\nC2\nC1\nD1>A\nD3"
+              },
+              {
+                "title": "T2",
+                "awakening": true,
+                "content": ""
+              },
+              {
+                "title": "T3 满豆 弱体7回|驱散2回",
+                "awakening": true,
+                "content": "D1\nF"
+              },
+              {
+                "title": "T4",
+                "awakening": true,
+                "content": "D2>E\nE2"
+              },
+              {
+                "title": "T5 满豆 弱体7回|驱散2回",
+                "awakening": false,
+                "content": "A\nA4\nE1\nFC\nC1"
+              },
+              {
+                "title": "T6",
+                "awakening": true,
+                "content": "A1\nA2"
+              },
+              {
+                "title": "T7 满豆 弱体7回|驱散2回",
+                "awakening": false,
+                "content": "B1\nE\nC2"
+              },
+              {
+                "title": "T8",
+                "awakening": true,
+                "content": ""
+              }
+            ]
+          }
+        ],
+        "currentBranch": 0
+      },
+      {
+        "branches": [
+          {
+            "name": "100~80血",
+            "items": [
+              {
+                "title": "T9 95特动 3回攻击4回",
+                "awakening": false,
+                "content": ""
+              },
+              {
+                "title": "T10 95特动 2000w奥义",
+                "awakening": true,
+                "content": ""
+              },
+              {
+                "title": "T11 95特动 1500w技伤",
+                "awakening": false,
+                "content": "C2\nFC\nB3\nC1\n关奥义是为了触发妈召buff"
+              },
+              {
+                "title": "T12 满豆 弱体7回|驱散2回",
+                "awakening": false,
+                "content": "驱散：不开奥义直接A\n弱体：补3层左右弱体\n1.\nC2\n2.\nF\n3.\nE1\nA4\n4.\nB1"
+              },
+              {
+                "title": "进入80血",
+                "awakening": true,
+                "content": "【留以下技能】\nB1\nFC"
+              },
+              {
+                "title": "80血全员红圈",
+                "awakening": true,
+                "content": "可打伤害"
+              }
+            ]
+          }
+        ],
+        "currentBranch": 0
+      },
+      {
+        "branches": [
+          {
+            "name": "黄刀~60血",
+            "items": [
+              {
+                "title": "80血特动：100w xxx",
+                "awakening": true,
+                "content": "FC\nA1\nB1\nC1"
+              },
+              {
+                "title": "80血特动：满豆 弱体7回|驱散2回",
+                "awakening": false,
+                "content": "C2"
+              },
+              {
+                "title": "80血特动：T19 1500w技伤",
+                "awakening": false,
+                "content": ""
+              },
+              {
+                "title": "满豆 奥义4回",
+                "awakening": true,
+                "content": "F"
+              },
+              {
+                "title": "无特动",
+                "awakening": false,
+                "content": "交替满豆4奥义，可用以下技能充能\nF\nE2\nB1"
+              },
+              {
+                "title": "65血后",
+                "awakening": false,
+                "content": "注意留大伤害技能和黄技能，回血召唤提前开\nC\nE"
+              }
+            ]
+          },
+          {
+            "name": "红刀~60血",
+            "items": [
+              {
+                "title": "80血特动：100w xxx",
+                "awakening": true,
+                "content": "FC\nA1\nB1\nC1"
+              },
+              {
+                "title": "80血特动：满豆 弱体7回|驱散2回",
+                "awakening": false,
+                "content": "弱体：\nC2\n"
+              },
+              {
+                "title": "80血特动：1500w技伤",
+                "awakening": true,
+                "content": "C"
+              },
+              {
+                "title": "满豆 3回攻击3回",
+                "awakening": false,
+                "content": ""
+              },
+              {
+                "title": "T22",
+                "awakening": true,
+                "content": "开4奥义进行回血，续咖喱的buff"
+              },
+              {
+                "title": "65血后",
+                "awakening": false,
+                "content": "注意留大伤害技能和黄技能，回血召唤提前开\nC\nE"
+              }
+            ]
+          }
+        ],
+        "currentBranch": 1
+      },
+      {
+        "branches": [
+          {
+            "name": "60~20",
+            "items": [
+              {
+                "title": "全员红圈",
+                "awakening": true,
+                "content": "不要用暗老王！不要用000！！\nFC"
+              },
+              {
+                "title": "给苹果",
+                "awakening": false,
+                "content": "BP\n黄苹果前回血，吃完后不要再奶\n红、绿苹果随意吃\n估算能不能进55血特动，如果进不了，黄苹果下一T吃\nB2\nB3\nA4\nA1\nC2\nC1\nE1\nE2\nE3\n留FC！！！"
+              },
+              {
+                "title": "无特动",
+                "awakening": false,
+                "content": "BP\n黄苹果\n暗龙蹲\n留FC"
+              },
+              {
+                "title": "55血特动：奥义5回",
+                "awakening": true,
+                "content": "B\n留FC"
+              },
+              {
+                "title": "55血特动：攻击行动6回",
+                "awakening": false,
+                "content": "FC\nC1\nA1\nB3\nFC后水龙2动，如果没有FC可以牛1"
+              },
+              {
+                "title": "55血特动：3500w技伤",
+                "awakening": true,
+                "content": ""
+              },
+              {
+                "title": "55血特动：弱体10回",
+                "awakening": true,
+                "content": "C2\nF"
+              },
+              {
+                "title": "55血特动：FC",
+                "awakening": true,
+                "content": "FC\nC1\n有苹果就别用黄技"
+              },
+              {
+                "title": "55血特动：60hit",
+                "awakening": false,
+                "content": "A\nA3"
+              },
+              {
+                "title": "满豆 弱体7回|驱散2回",
+                "awakening": false,
+                "content": "与前面相同"
+              },
+              {
+                "title": "无特动",
+                "awakening": true,
+                "content": "与前面相同"
+              },
+              {
+                "title": "25血量",
+                "awakening": true,
+                "content": "尽量留技能，不强求"
+              }
+            ]
+          }
+        ],
+        "currentBranch": 0
+      },
+      {
+        "branches": [
+          {
+            "name": "20~0",
+            "items": [
+              {
+                "title": "全员红圈",
+                "awakening": false,
+                "content": "关奥义，留FC！！！"
+              },
+              {
+                "title": "奥义6回|使用12次技能|66hit",
+                "awakening": true,
+                "content": "【【【【！！！！！！等待！！！！！！】】】】\nVII消失了打\n\n奥义6次：满奥可解，等待时多开点技能\n12技能：开麒麟，多开点技能\n66hit：A出去解，等待时多开点技能\n【注意留FC！！！留水龙3！！！】"
+              },
+              {
+                "title": "满豆 FC",
+                "awakening": true,
+                "content": "FC\nF\nE3\n本T可以多打点伤害，等VIII过去"
+              },
+              {
+                "title": "满豆 FC",
+                "awakening": true,
+                "content": "上一T满奥义本T有FC\nFC"
+              },
+              {
+                "title": "满豆 FC",
+                "awakening": true,
+                "content": "B\n开奥义充FC"
+              },
+              {
+                "title": "13血特动：99999伤害",
+                "awakening": true,
+                "content": "E\nC1\nA4"
+              },
+              {
+                "title": "满豆 FC",
+                "awakening": true,
+                "content": "FC\n【【【【！！！！！！等待！！！！！！】】】】\n等待IX消失了打（高昂），此时可以多打一些伤害进6血"
+              },
+              {
+                "title": "无特动",
+                "awakening": true,
+                "content": "猛猛打血"
+              },
+              {
+                "title": "6血特动：99hit",
+                "awakening": false,
+                "content": "A\nB1"
+              },
+              {
+                "title": "满豆 FC",
+                "awakening": true,
+                "content": "FC"
+              }
+            ]
+          }
+        ],
+        "currentBranch": 0
+      }
+    ],
+    "settings": {
+      "roles": [
+        {
+          "roleImage": "100580_sw_1_01",
+          "skills": [
+            "2711_3",
+            "2712_3",
+            "26_2",
+            "2709_1"
+          ]
+        },
+        {
+          "roleImage": "3040610000_01_1",
+          "skills": [
+            "2692_3",
+            "2693_1",
+            "2691_3",
+            ""
+          ]
+        },
+        {
+          "roleImage": "3040376000_02",
+          "skills": [
+            "1637_3",
+            "1638_1",
+            "1639_5",
+            ""
+          ]
+        },
+        {
+          "roleImage": "3040265000_01",
+          "skills": [
+            "1109_3",
+            "1110_3",
+            "1111_4",
+            "1112_3"
+          ]
+        },
+        {
+          "roleImage": "3040639000_01",
+          "skills": [
+            "2802_1",
+            "2803_3",
+            "2804_4",
+            ""
+          ]
+        },
+        {
+          "roleImage": "3040611000_01",
+          "skills": []
+        }
+      ],
+      "stones": [
+        {
+          "imageUrl": "2040448000"
+        },
+        {
+          "imageUrl": "2040425000"
+        },
+        {
+          "imageUrl": "2040065000_02"
+        },
+        {
+          "imageUrl": "2040158000"
+        },
+        {
+          "imageUrl": "2040056000_04"
+        },
+        {
+          "imageUrl": "2040090000_04"
+        }
+      ]
+    }
   }
 };
